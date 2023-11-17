@@ -78,6 +78,7 @@ async function run() {
       const result = await myCartCollection.insertOne(addMyCart);
       res.send(result);
      })
+   
      app.get('/mycarts', async(req,res) => {
       const cursor = myCartCollection.find();
       const result = await cursor.toArray();
