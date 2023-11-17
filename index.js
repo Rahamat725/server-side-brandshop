@@ -32,6 +32,7 @@ async function run() {
     await client.connect();
 
      const productCollection = client.db('BrandDB').collection("brands");
+     const myCartCollection = client.db('BrandDB').collection("mycarts");
 
      app.get('/brands', async(req,res) => {
       const cursor = productCollection.find();
@@ -65,9 +66,22 @@ async function run() {
           photo:updateProduct.photo
         },
       };
-      const result = productCollection.updateOne(filter,updateProduct,options);
+      const result = await productCollection.updateOne(filter,product,options);
       res.send(result);
 
+     })
+
+
+    //myCart related database
+    app.post('/mycarts', async(req,res) => {
+      const addMyCart = req.body;
+      const result = await myCartCollection.insertOne(addMyCart);
+      res.send(result);
+     })
+     app.get('/mycarts', async(req,res) => {
+      const cursor = myCartCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
      })
 
     // Send a ping to confirm a successful connection
