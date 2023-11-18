@@ -84,6 +84,19 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
      })
+     app.get('/mycarts/:id', async(req,res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await myCartCollection.findOne(query);
+      res.send(result)
+     })
+     app.delete('/mycarts/:id', async(req,res) => {
+      const id = req.params.id;
+      // console.log(id)
+      const query = {_id:id};
+      const result = await myCartCollection.deleteOne(query);
+      res.send(result);
+     })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
