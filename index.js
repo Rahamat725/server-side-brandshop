@@ -6,7 +6,12 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // middleware
-app.use(cors());
+app.use(
+  cors({
+      origin: ['http://localhost:5173', 'https://zentech-f3147.web.app'],
+      credentials: true,
+  }),
+)
 app.use(express.json());
 
 // ElWi9ERzHm4yATcs
@@ -29,7 +34,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+ 
 
      const productCollection = client.db('BrandDB').collection("brands");
      const myCartCollection = client.db('BrandDB').collection("mycarts");
@@ -103,7 +108,7 @@ async function run() {
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
-    // await client.close();
+    
   }
 }
 run().catch(console.dir);
